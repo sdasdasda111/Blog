@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <section>
+    <h1>最新文章</h1>
+    <ul class="post-list">
+      {{ range first 10 (where .Site.RegularPages "Type" "posts") }}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <time>{{ .Date.Format "2006-01-02" }}</time>
+        </li>
+      {{ else }}
+        <li>还没有文章，先写一篇试试吧。</li>
+      {{ end }}
+    </ul>
+  </section>
+{{ end }}

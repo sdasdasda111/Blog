@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    {{ partial "head.html" . }}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+        <p class="tagline">{{ .Site.Params.description }}</p>
+        {{ partial "nav.html" . }}
+      </div>
+    </header>
+    <main class="container">
+      {{ block "main" . }}{{ end }}
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <small>© {{ now.Year }} {{ .Site.Params.author }}</small>
+      </div>
+    </footer>
+  </body>
+</html>
