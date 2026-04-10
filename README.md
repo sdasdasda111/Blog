@@ -1,0 +1,2 @@
+# Blog
+Document for learning
