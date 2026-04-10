@@ -4,20 +4,25 @@
     {{ partial "head.html" . }}
   </head>
   <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
-        <p class="tagline">{{ .Site.Params.description }}</p>
-        {{ partial "nav.html" . }}
-      </div>
-    </header>
-    <main class="container">
-      {{ block "main" . }}{{ end }}
-    </main>
-    <footer class="site-footer">
-      <div class="container">
-        <small>© {{ now.Year }} {{ .Site.Params.author }}</small>
-      </div>
-    </footer>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="container header-grid">
+          <div>
+            <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+            <p class="tagline">{{ .Site.Params.description }}</p>
+          </div>
+          {{ partial "nav.html" . }}
+        </div>
+      </header>
+      <main class="container site-main">
+        {{ block "main" . }}{{ end }}
+      </main>
+      <footer class="site-footer">
+        <div class="container footer-grid">
+          <small>© {{ now.Year }} {{ .Site.Params.author }}</small>
+          <small>Built with Hugo · Published on GitHub Pages</small>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

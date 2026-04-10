@@ -1,15 +1,38 @@
 {{ define "main" }}
-  <section>
-    <h1>最新文章</h1>
-    <ul class="post-list">
-      {{ range first 10 (where .Site.RegularPages "Type" "posts") }}
-        <li>
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-          <time>{{ .Date.Format "2006-01-02" }}</time>
-        </li>
-      {{ else }}
-        <li>还没有文章，先写一篇试试吧。</li>
-      {{ end }}
-    </ul>
+  <section class="hero-card">
+    <p class="eyebrow">Video subsystem / engineering notes</p>
+    <h1>记录视频子系统的设计、实现与持续演进。</h1>
+    <p class="hero-copy">
+      这里聚焦视频子系统相关的技术实践，包括架构拆解、链路分析、模块协作、
+      性能优化以及项目落地过程中的关键经验，尽量把复杂问题写清楚、讲明白、可复用。
+    </p>
+    <div class="hero-actions">
+      <a class="button-primary" href="{{ "/posts/" | relURL }}">查看文章</a>
+      <a class="button-ghost" href="{{ "/about/" | relURL }}">了解作者</a>
+    </div>
+  </section>
+
+  <section class="section-head">
+    <div>
+      <p class="eyebrow">Latest posts</p>
+      <h2>最新文章</h2>
+    </div>
+  </section>
+
+  <section class="post-feed">
+    {{ range first 10 (where .Site.RegularPages "Type" "posts") }}
+      <article class="post-card">
+        <div class="post-card-main">
+          <p class="post-date">{{ .Date.Format "2006-01-02" }}</p>
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          {{ with .Summary }}
+            <p class="post-summary">{{ . }}</p>
+          {{ end }}
+        </div>
+        <span class="post-arrow">↗</span>
+      </article>
+    {{ else }}
+      <article class="empty-state">还没有文章，先写一篇试试吧。</article>
+    {{ end }}
   </section>
 {{ end }}

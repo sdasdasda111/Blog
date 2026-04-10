@@ -1,11 +1,11 @@
 baseURL = "https://sdasdasda111.github.io/Blog/"
 languageCode = "zh-cn"
-title = "我的个人博客"
+title = "video子系统"
 hasCJKLanguage = true
 
 [params]
-  description = "使用 Hugo + GitHub Pages 搭建的个人博客"
-  author = "Your Name"
+  description = "N/A"
+  author = "dongzhichao"
 
 [permalinks]
   posts = "/posts/:slug/"

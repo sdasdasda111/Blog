@@ -4,20 +4,20 @@ param(
 )
 
 $hugoCmd = Get-Command hugo -ErrorAction SilentlyContinue
-$localHugo = Join-Path $PSScriptRoot "tools\\hugo.exe"
+$localHugo = Join-Path $PSScriptRoot "tools\hugo.exe"
 if (-not $hugoCmd -and -not (Test-Path $localHugo)) {
-  Write-Error "未找到 Hugo。请先安装 Hugo Extended，或将 hugo.exe 放到 tools 目录。"
+  Write-Error "Hugo was not found. Install Hugo Extended or put hugo.exe in the tools folder."
   exit 1
 }
 
-$draftFlag = ""
+$args = @("server", "--bind", "0.0.0.0", "--port", $Port)
 if ($Drafts) {
-  $draftFlag = "-D"
+  $args += "-D"
 }
 
-Write-Host "启动 Hugo 开发服务器，端口: $Port"
+Write-Host "Starting Hugo dev server on port $Port"
 if ($hugoCmd) {
-  hugo server $draftFlag --bind 0.0.0.0 --port $Port
+  & hugo @args
 } else {
-  & $localHugo server $draftFlag --bind 0.0.0.0 --port $Port
+  & $localHugo @args
 }
