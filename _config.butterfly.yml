@@ -65,7 +65,9 @@ aside:
 
 card_author:
   enable: true
-  description: Linux / Embedded / Debugging
+  description: |
+    Linux / Embedded / Debugging
+    联系方式：13244657856
   button:
     enable: false
     icon: fab fa-github
