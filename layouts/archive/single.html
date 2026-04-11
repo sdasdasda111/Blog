@@ -1,0 +1,95 @@
+{{ define "main" }}
+  {{ $pages := where .Site.RegularPages "Type" "posts" }}
+  {{ $grouped := $pages.GroupByDate "2006" }}
+  <article>
+    <section class="post-cover archive-cover">
+      <header class="hero-header inner-header">
+        <div class="container hero-header-grid">
+          <div class="brand-wrap">
+            <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+            <p class="tagline">{{ .Site.Params.description }}</p>
+          </div>
+          {{ partial "nav.html" . }}
+        </div>
+      </header>
+      <div class="container post-cover-inner">
+        <p class="eyebrow hero-eyebrow">Archive</p>
+        <h1>{{ .Title }}</h1>
+        <div class="cover-meta-grid">
+          <span>文章总览 - {{ len $pages }}</span>
+          <span>作者 {{ .Site.Params.author }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="container archive-layout">
+      <div class="archive-main paper-card">
+        <div class="archive-title-row">
+          <h2>文章总览</h2>
+          <span>{{ len $pages }} 篇</span>
+        </div>
+
+        <div class="archive-timeline">
+          {{ range $grouped }}
+            <section class="archive-year-group">
+              <div class="archive-year">{{ .Key }}</div>
+              <div class="archive-items">
+                {{ range .Pages }}
+                  <article class="archive-item">
+                    <a class="archive-item-cover" href="{{ .RelPermalink }}">
+                      <div class="archive-cover-surface"></div>
+                    </a>
+                    <div class="archive-item-info">
+                      <div class="archive-item-time">{{ .Date.Format "2006-01-02" }}</div>
+                      <a class="archive-item-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </div>
+                  </article>
+                {{ end }}
+              </div>
+            </section>
+          {{ end }}
+        </div>
+      </div>
+
+      <aside class="archive-aside aside-content">
+        <section class="card-widget card-info paper-card">
+          <div class="is-center">
+            <div class="avatar-img">
+              <div class="profile-avatar large-avatar">D</div>
+            </div>
+            <div class="author-info__name">{{ .Site.Params.author }}</div>
+            <div class="author-info__description">{{ .Site.Params.description }}</div>
+          </div>
+          <div class="card-info-data site-data is-center">
+            <a href="{{ "/archive/" | relURL }}"><div class="headline">文章</div><div class="length-num">{{ len $pages }}</div></a>
+            <a href="{{ "/tags/" | relURL }}"><div class="headline">标签</div><div class="length-num">{{ len .Site.Taxonomies.tags }}</div></a>
+            <a href="{{ "/categories/" | relURL }}"><div class="headline">分类</div><div class="length-num">{{ len .Site.Taxonomies.categories }}</div></a>
+          </div>
+          <a id="card-info-btn" target="_blank" rel="noopener" href="{{ .Site.Params.github }}">Follow Me</a>
+        </section>
+
+        <section class="card-widget paper-card">
+          <div class="item-headline"><span>分类</span></div>
+          <ul class="simple-list category-list-wide">
+            {{ range .Site.Taxonomies.categories.ByCount }}
+              <li><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a><span>{{ .Count }}</span></li>
+            {{ else }}
+              <li><span>暂无分类</span><span>0</span></li>
+            {{ end }}
+          </ul>
+        </section>
+
+        <section class="card-widget paper-card">
+          <div class="item-headline"><span>标签</span></div>
+          <div class="tag-cloud card-tag-cloud">
+            {{ range .Site.Taxonomies.tags.ByCount }}
+              <a class="tag-chip" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+            {{ else }}
+              <span class="tag-chip">暂无标签</span>
+            {{ end }}
+          </div>
+        </section>
+      </aside>
+    </section>
+  </article>
+{{ end }}
