@@ -1,5 +1,7 @@
 /public/
-/resources/_gen/
-/.hugo_build.lock
+/node_modules/
+/db.json
+/.deploy_git/
+/.cache/
 /id_ed25519
 /id_ed25519.pub

@@ -1,0 +1,101 @@
+menu:
+  首页: / || fas fa-home
+  搜索: /search/ || fas fa-search
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  关于: /about/ || fas fa-heart
+
+favicon: /img/favicon.png
+avatar:
+  img: /img/avatar.svg
+  effect: false
+
+disable_top_img: false
+index_img: false
+default_top_img: false
+archive_img: false
+tag_img: false
+category_img: false
+footer_bg: false
+
+subtitle:
+  enable: true
+  effect: true
+  sub:
+    - 记录嵌入式系统、Linux 驱动与工程实践
+    - 持续整理开发笔记、问题定位与方法论
+
+social:
+  fab fa-github: https://github.com/sdasdasda111/Blog || Github || '#24292e'
+  fas fa-envelope: mailto:dongzhichao@example.com || Email || '#4a5a2a'
+
+index_site_info_top: 120px
+index_top_img_height: 520px
+
+post_meta:
+  page:
+    date_type: created
+    categories: true
+    tags: true
+  post:
+    date_type: both
+    categories: true
+    tags: true
+
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  display:
+    archive: true
+    tag: true
+    category: true
+
+card_author:
+  enable: true
+  description: 分享 Linux、嵌入式开发、调试分析与系统工程实践。
+  button:
+    enable: true
+    icon: fab fa-github
+    text: Follow Me
+    link: https://github.com/sdasdasda111/Blog
+
+card_announcement:
+  enable: true
+  content: 欢迎来到我的个人博客。
+
+card_webinfo:
+  enable: true
+  post_count: true
+  last_push_date: false
+  sort: 1
+
+local_search:
+  enable: true
+  preload: false
+  CDN:
+
+highlight_theme: mac
+code_word_wrap: false
+copy:
+  enable: true
+  copyright:
+    enable: false
+
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+
+comments:
+  use: false
+
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false

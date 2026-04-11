@@ -1,14 +1,14 @@
-$hugoCmd = Get-Command hugo -ErrorAction SilentlyContinue
-$localHugo = Join-Path $PSScriptRoot "tools\hugo.exe"
-if (-not $hugoCmd -and -not (Test-Path $localHugo)) {
-  Write-Error "Hugo was not found. Install Hugo Extended or put hugo.exe in the tools folder."
+$nodeRoot = Join-Path $PSScriptRoot "tools\node"
+$nodeExe = Join-Path $nodeRoot "node.exe"
+$npmCmd = Join-Path $nodeRoot "npm.cmd"
+
+if (-not (Test-Path $nodeExe) -or -not (Test-Path $npmCmd)) {
+  Write-Error "Portable Node.js not found in tools\\node."
   exit 1
 }
 
-Write-Host "Building production site..."
-if ($hugoCmd) {
-  & hugo --minify
-} else {
-  & $localHugo --minify
-}
+$env:Path = "$nodeRoot;$env:Path"
+
+Write-Host "Building Hexo production site..."
+& $npmCmd run build
 Write-Host "Done. Output directory: public/"
