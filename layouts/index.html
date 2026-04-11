@@ -1,10 +1,20 @@
 {{ define "main" }}
   {{ $posts := where .Site.RegularPages "Type" "posts" }}
   {{ $latest := first 1 $posts }}
-  <section class="hero-banner">
-    <div class="container hero-grid">
+  <section class="hero-banner home-hero">
+    <header class="hero-header">
+      <div class="container hero-header-grid">
+        <div class="brand-wrap">
+          <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+          <p class="tagline">{{ .Site.Params.description }}</p>
+        </div>
+        {{ partial "nav.html" . }}
+      </div>
+    </header>
+
+    <div class="container hero-grid integrated-hero-grid">
       <div class="hero-copy-block">
-        <p class="eyebrow">Video subsystem / engineering notes</p>
+        <p class="eyebrow hero-eyebrow">Video subsystem / engineering notes</p>
         <h1>把视频子系统的链路、驱动、架构与工程细节，整理成可沉淀的知识库。</h1>
         <p class="hero-copy">
           这个博客围绕 V4L2、视频输入链路、驱动框架、模块协作、问题定位与性能优化展开，
@@ -12,10 +22,10 @@
         </p>
         <div class="hero-actions">
           <a class="button-primary" href="{{ "/posts/" | relURL }}">开始阅读</a>
-          <a class="button-ghost" href="{{ "/archive/" | relURL }}">查看归档</a>
+          <a class="button-ghost hero-ghost" href="{{ "/archive/" | relURL }}">查看归档</a>
         </div>
       </div>
-      <aside class="profile-panel">
+      <aside class="profile-panel hero-profile-panel">
         <div class="profile-avatar">D</div>
         <h2>{{ .Site.Params.author }}</h2>
         <p>{{ .Site.Params.intro }}</p>
@@ -41,10 +51,10 @@
     </div>
   </section>
 
-  <section class="container content-grid">
+  <section class="container content-grid reference-content-grid">
     <div class="main-column">
       {{ with index $latest 0 }}
-        <article class="featured-post">
+        <article class="featured-post paper-card">
           <p class="eyebrow">Featured article</p>
           <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
           <p class="featured-meta">{{ .Date.Format "2006-01-02" }} · {{ with .Params.categories }}{{ delimit . " / " }}{{ else }}未分类{{ end }}</p>
@@ -53,7 +63,7 @@
         </article>
       {{ end }}
 
-      <section class="section-card">
+      <section class="section-card paper-card">
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Latest posts</p>
@@ -85,7 +95,18 @@
     </div>
 
     <aside class="side-column">
-      <section class="side-card">
+      <section class="side-card paper-card author-side-card">
+        <div class="profile-avatar small-avatar">D</div>
+        <h3>{{ .Site.Params.author }}</h3>
+        <p>{{ .Site.Params.description }}</p>
+        <div class="profile-stats compact-stats">
+          <div><strong>{{ len $posts }}</strong><span>文章</span></div>
+          <div><strong>{{ len .Site.Taxonomies.tags }}</strong><span>标签</span></div>
+          <div><strong>{{ len .Site.Taxonomies.categories }}</strong><span>分类</span></div>
+        </div>
+      </section>
+
+      <section class="side-card paper-card">
         <p class="eyebrow">Categories</p>
         <h3>分类</h3>
         <ul class="simple-list">
@@ -97,7 +118,7 @@
         </ul>
       </section>
 
-      <section class="side-card">
+      <section class="side-card paper-card">
         <p class="eyebrow">Tags</p>
         <h3>标签云</h3>
         <div class="tag-cloud">
@@ -106,17 +127,6 @@
           {{ else }}
             <span class="tag-chip">暂无标签</span>
           {{ end }}
-        </div>
-      </section>
-
-      <section class="side-card">
-        <p class="eyebrow">Quick links</p>
-        <h3>快速入口</h3>
-        <div class="quick-links">
-          <a href="{{ "/archive/" | relURL }}">归档</a>
-          <a href="{{ "/search/" | relURL }}">搜索</a>
-          <a href="{{ "/about/" | relURL }}">关于</a>
-          <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </section>
     </aside>

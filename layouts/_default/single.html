@@ -3,9 +3,18 @@
   {{ $tags := .Params.tags }}
   {{ $categories := .Params.categories }}
   <article>
-    <section class="post-cover{{ if not $isPost }} post-cover-page{{ end }}">
+    <section class="post-cover reference-post-cover{{ if not $isPost }} post-cover-page{{ end }}">
+      <header class="hero-header inner-header">
+        <div class="container hero-header-grid">
+          <div class="brand-wrap">
+            <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+            <p class="tagline">{{ .Site.Params.description }}</p>
+          </div>
+          {{ partial "nav.html" . }}
+        </div>
+      </header>
       <div class="container post-cover-inner">
-        <p class="eyebrow">{{ if $isPost }}Technology blog{{ else }}Page{{ end }}</p>
+        <p class="eyebrow hero-eyebrow">{{ if $isPost }}Technology blog{{ else }}Page{{ end }}</p>
         <h1>{{ .Title }}</h1>
         <div class="cover-meta-grid">
           <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
@@ -20,15 +29,20 @@
       </div>
     </section>
 
-    <section class="container article-layout">
-      <div class="post-article article-card">
+    <section class="container article-layout reference-article-layout">
+      <div class="post-article article-card paper-card">
         <section class="post-content prose">
           {{ .Content }}
         </section>
       </div>
 
       <aside class="article-sidebar">
-        <section class="side-card sticky-card">
+        <section class="side-card paper-card sticky-card author-side-card">
+          <div class="profile-avatar small-avatar">D</div>
+          <h3>{{ .Site.Params.author }}</h3>
+          <p>{{ .Site.Params.intro }}</p>
+        </section>
+        <section class="side-card paper-card sticky-card secondary-sticky">
           <p class="eyebrow">{{ if $isPost }}Article info{{ else }}Page info{{ end }}</p>
           <h3>{{ if $isPost }}文章信息{{ else }}页面信息{{ end }}</h3>
           <ul class="info-list">
@@ -41,15 +55,6 @@
               <li><span>类型</span><strong>{{ .Type }}</strong></li>
             {{ end }}
           </ul>
-        </section>
-        <section class="side-card">
-          <p class="eyebrow">More</p>
-          <h3>继续浏览</h3>
-          <div class="quick-links vertical-links">
-            <a href="{{ "/posts/" | relURL }}">更多文章</a>
-            <a href="{{ "/archive/" | relURL }}">查看归档</a>
-            <a href="{{ "/tags/" | relURL }}">浏览标签</a>
-          </div>
         </section>
       </aside>
     </section>
