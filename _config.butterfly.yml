@@ -4,6 +4,7 @@ menu:
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
   关于: /about/ || fas fa-heart
+  其他: /other/ || fas fa-ellipsis
 
 favicon: /img/favicon.png
 avatar:
