@@ -1,7 +1,6 @@
 {{ define "main" }}
   {{ $posts := where .Site.RegularPages "Type" "posts" }}
-  {{ $latest := first 1 $posts }}
-  <section class="hero-banner home-hero">
+  <section class="hero-banner home-hero reference-home-hero">
     <header class="hero-header">
       <div class="container hero-header-grid">
         <div class="brand-wrap">
@@ -12,104 +11,67 @@
       </div>
     </header>
 
-    <div class="container hero-grid integrated-hero-grid">
-      <div class="hero-copy-block">
+    <div class="container hero-intro-shell">
+      <div class="hero-copy-block reference-hero-copy">
         <p class="eyebrow hero-eyebrow">Video subsystem / engineering notes</p>
-        <h1>把视频子系统的链路、驱动、架构与工程细节，整理成可沉淀的知识库。</h1>
-        <p class="hero-copy">
-          这个博客围绕 V4L2、视频输入链路、驱动框架、模块协作、问题定位与性能优化展开，
-          尽量把复杂系统拆成可以理解、可以复盘、可以复用的内容。
-        </p>
+        <h1>{{ .Site.Title }}</h1>
+        <p class="hero-copy">{{ .Site.Params.intro }}</p>
         <div class="hero-actions">
-          <a class="button-primary" href="{{ "/posts/" | relURL }}">开始阅读</a>
-          <a class="button-ghost hero-ghost" href="{{ "/archive/" | relURL }}">查看归档</a>
+          <a class="button-primary" href="{{ "/posts/" | relURL }}">查看文章</a>
+          <a class="button-ghost hero-ghost" href="{{ "/about/" | relURL }}">关于作者</a>
         </div>
       </div>
-      <aside class="profile-panel hero-profile-panel">
-        <div class="profile-avatar">D</div>
-        <h2>{{ .Site.Params.author }}</h2>
-        <p>{{ .Site.Params.intro }}</p>
-        <div class="profile-stats">
-          <div>
-            <strong>{{ len $posts }}</strong>
-            <span>文章</span>
-          </div>
-          <div>
-            <strong>{{ len .Site.Taxonomies.tags }}</strong>
-            <span>标签</span>
-          </div>
-          <div>
-            <strong>{{ len .Site.Taxonomies.categories }}</strong>
-            <span>分类</span>
-          </div>
-        </div>
-        <div class="profile-links">
-          <a href="{{ "/about/" | relURL }}">关于我</a>
-          <a href="{{ "/search/" | relURL }}">站内搜索</a>
-        </div>
-      </aside>
     </div>
   </section>
 
-  <section class="container content-grid reference-content-grid">
-    <div class="main-column">
-      {{ with index $latest 0 }}
-        <article class="featured-post paper-card">
-          <p class="eyebrow">Featured article</p>
-          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-          <p class="featured-meta">{{ .Date.Format "2006-01-02" }} · {{ with .Params.categories }}{{ delimit . " / " }}{{ else }}未分类{{ end }}</p>
-          <p>{{ .Summary }}</p>
-          <a class="text-link" href="{{ .RelPermalink }}">阅读全文 →</a>
-        </article>
-      {{ end }}
-
-      <section class="section-card paper-card">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">Latest posts</p>
-            <h2>最新文章</h2>
-          </div>
-          <a class="text-link" href="{{ "/posts/" | relURL }}">查看全部</a>
-        </div>
-
-        <div class="post-feed refined-feed">
-          {{ range first 8 $posts }}
-            <article class="post-card refined-card">
-              <div class="post-card-main">
-                <p class="post-date">{{ .Date.Format "2006-01-02" }}</p>
-                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-                <p class="post-summary">{{ .Summary }}</p>
-                <div class="mini-tags">
-                  {{ range first 3 .Params.tags }}
-                    <a class="tag-chip" href="{{ (printf "/tags/%s/" .) | relURL }}">#{{ . }}</a>
-                  {{ end }}
-                </div>
+  <main class="container homepage-layout">
+    <section class="recent-posts-stream">
+      {{ range $index, $post := first 8 $posts }}
+        <article class="recent-post-item {{ if modBool $index 2 }}cover-right{{ else }}cover-left{{ end }}">
+          <div class="post_cover {{ if modBool $index 2 }}right{{ else }}left{{ end }}">
+            <a href="{{ $post.RelPermalink }}" title="{{ $post.Title }}">
+              <div class="post-cover-surface">
+                <div class="cover-overlay"></div>
               </div>
-              <span class="post-arrow">↗</span>
-            </article>
-          {{ else }}
-            <article class="empty-state">还没有文章，先写一篇试试吧。</article>
-          {{ end }}
-        </div>
-      </section>
-    </div>
+            </a>
+          </div>
+          <div class="recent-post-info paper-card">
+            <a class="article-title" href="{{ $post.RelPermalink }}" title="{{ $post.Title }}">{{ $post.Title }}</a>
+            <div class="article-meta-wrap">
+              <span class="post-meta-date">发表于 {{ $post.Date.Format "2006-01-02" }}</span>
+              <span class="article-meta-separator">|</span>
+              <span class="article-meta-category">{{ with $post.Params.categories }}{{ delimit . " / " }}{{ else }}未分类{{ end }}</span>
+              <span class="article-meta-separator">|</span>
+              <span class="article-meta-tags">{{ with $post.Params.tags }}{{ delimit . " / " }}{{ else }}无标签{{ end }}</span>
+            </div>
+            <div class="content">{{ $post.Summary }}</div>
+          </div>
+        </article>
+      {{ else }}
+        <article class="empty-state paper-card">还没有文章，先写一篇试试吧。</article>
+      {{ end }}
+    </section>
 
-    <aside class="side-column">
-      <section class="side-card paper-card author-side-card">
-        <div class="profile-avatar small-avatar">D</div>
-        <h3>{{ .Site.Params.author }}</h3>
-        <p>{{ .Site.Params.description }}</p>
-        <div class="profile-stats compact-stats">
-          <div><strong>{{ len $posts }}</strong><span>文章</span></div>
-          <div><strong>{{ len .Site.Taxonomies.tags }}</strong><span>标签</span></div>
-          <div><strong>{{ len .Site.Taxonomies.categories }}</strong><span>分类</span></div>
+    <aside class="aside-content">
+      <section class="card-widget card-info paper-card">
+        <div class="is-center">
+          <div class="avatar-img">
+            <div class="profile-avatar large-avatar">D</div>
+          </div>
+          <div class="author-info__name">{{ .Site.Params.author }}</div>
+          <div class="author-info__description">{{ .Site.Params.description }}</div>
         </div>
+        <div class="card-info-data site-data is-center">
+          <a href="{{ "/archive/" | relURL }}"><div class="headline">文章</div><div class="length-num">{{ len $posts }}</div></a>
+          <a href="{{ "/tags/" | relURL }}"><div class="headline">标签</div><div class="length-num">{{ len .Site.Taxonomies.tags }}</div></a>
+          <a href="{{ "/categories/" | relURL }}"><div class="headline">分类</div><div class="length-num">{{ len .Site.Taxonomies.categories }}</div></a>
+        </div>
+        <a id="card-info-btn" target="_blank" rel="noopener" href="{{ .Site.Params.github }}">Follow Me</a>
       </section>
 
-      <section class="side-card paper-card">
-        <p class="eyebrow">Categories</p>
-        <h3>分类</h3>
-        <ul class="simple-list">
+      <section class="card-widget paper-card">
+        <div class="item-headline"><span>分类</span></div>
+        <ul class="simple-list category-list-wide">
           {{ range .Site.Taxonomies.categories.ByCount }}
             <li><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a><span>{{ .Count }}</span></li>
           {{ else }}
@@ -118,17 +80,26 @@
         </ul>
       </section>
 
-      <section class="side-card paper-card">
-        <p class="eyebrow">Tags</p>
-        <h3>标签云</h3>
-        <div class="tag-cloud">
+      <section class="card-widget paper-card">
+        <div class="item-headline"><span>标签</span></div>
+        <div class="tag-cloud card-tag-cloud">
           {{ range .Site.Taxonomies.tags.ByCount }}
-            <a class="tag-chip" href="{{ .Page.RelPermalink }}">#{{ .Page.Title }} <span>{{ .Count }}</span></a>
+            <a class="tag-chip" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
           {{ else }}
             <span class="tag-chip">暂无标签</span>
           {{ end }}
         </div>
       </section>
+
+      <section class="card-widget paper-card">
+        <div class="item-headline"><span>网站资讯</span></div>
+        <div class="webinfo">
+          <div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">{{ len $posts }}</div></div>
+          <div class="webinfo-item"><div class="item-name">标签数目 :</div><div class="item-count">{{ len .Site.Taxonomies.tags }}</div></div>
+          <div class="webinfo-item"><div class="item-name">分类数目 :</div><div class="item-count">{{ len .Site.Taxonomies.categories }}</div></div>
+          <div class="webinfo-item"><div class="item-name">最后更新 :</div><div class="item-count">{{ now.Format "2006-01-02" }}</div></div>
+        </div>
+      </section>
     </aside>
-  </section>
+  </main>
 {{ end }}
