@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <section class="container list-shell">
+    <header class="page-hero compact-hero">
+      <p class="eyebrow">Taxonomy</p>
+      <h1>{{ .Title }}</h1>
+      <p>{{ .Content }}</p>
+    </header>
+
+    <section class="section-card taxonomy-shell">
+      <div class="tag-cloud taxonomy-grid">
+        {{ range .Data.Terms.ByCount }}
+          <a class="tag-chip taxonomy-chip" href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <span>{{ .Count }}</span></a>
+        {{ else }}
+          <span class="tag-chip">暂无内容</span>
+        {{ end }}
+      </div>
+    </section>
+  </section>
+{{ end }}

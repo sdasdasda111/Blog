@@ -1,38 +1,124 @@
 {{ define "main" }}
-  <section class="hero-card">
-    <p class="eyebrow">Video subsystem / engineering notes</p>
-    <h1>记录视频子系统的设计、实现与持续演进。</h1>
-    <p class="hero-copy">
-      这里聚焦视频子系统相关的技术实践，包括架构拆解、链路分析、模块协作、
-      性能优化以及项目落地过程中的关键经验，尽量把复杂问题写清楚、讲明白、可复用。
-    </p>
-    <div class="hero-actions">
-      <a class="button-primary" href="{{ "/posts/" | relURL }}">查看文章</a>
-      <a class="button-ghost" href="{{ "/about/" | relURL }}">了解作者</a>
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  {{ $latest := first 1 $posts }}
+  <section class="hero-banner">
+    <div class="container hero-grid">
+      <div class="hero-copy-block">
+        <p class="eyebrow">Video subsystem / engineering notes</p>
+        <h1>把视频子系统的链路、驱动、架构与工程细节，整理成可沉淀的知识库。</h1>
+        <p class="hero-copy">
+          这个博客围绕 V4L2、视频输入链路、驱动框架、模块协作、问题定位与性能优化展开，
+          尽量把复杂系统拆成可以理解、可以复盘、可以复用的内容。
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="{{ "/posts/" | relURL }}">开始阅读</a>
+          <a class="button-ghost" href="{{ "/archive/" | relURL }}">查看归档</a>
+        </div>
+      </div>
+      <aside class="profile-panel">
+        <div class="profile-avatar">D</div>
+        <h2>{{ .Site.Params.author }}</h2>
+        <p>{{ .Site.Params.intro }}</p>
+        <div class="profile-stats">
+          <div>
+            <strong>{{ len $posts }}</strong>
+            <span>文章</span>
+          </div>
+          <div>
+            <strong>{{ len .Site.Taxonomies.tags }}</strong>
+            <span>标签</span>
+          </div>
+          <div>
+            <strong>{{ len .Site.Taxonomies.categories }}</strong>
+            <span>分类</span>
+          </div>
+        </div>
+        <div class="profile-links">
+          <a href="{{ "/about/" | relURL }}">关于我</a>
+          <a href="{{ "/search/" | relURL }}">站内搜索</a>
+        </div>
+      </aside>
     </div>
   </section>
 
-  <section class="section-head">
-    <div>
-      <p class="eyebrow">Latest posts</p>
-      <h2>最新文章</h2>
-    </div>
-  </section>
+  <section class="container content-grid">
+    <div class="main-column">
+      {{ with index $latest 0 }}
+        <article class="featured-post">
+          <p class="eyebrow">Featured article</p>
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          <p class="featured-meta">{{ .Date.Format "2006-01-02" }} · {{ with .Params.categories }}{{ delimit . " / " }}{{ else }}未分类{{ end }}</p>
+          <p>{{ .Summary }}</p>
+          <a class="text-link" href="{{ .RelPermalink }}">阅读全文 →</a>
+        </article>
+      {{ end }}
 
-  <section class="post-feed">
-    {{ range first 10 (where .Site.RegularPages "Type" "posts") }}
-      <article class="post-card">
-        <div class="post-card-main">
-          <p class="post-date">{{ .Date.Format "2006-01-02" }}</p>
-          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-          {{ with .Summary }}
-            <p class="post-summary">{{ . }}</p>
+      <section class="section-card">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">Latest posts</p>
+            <h2>最新文章</h2>
+          </div>
+          <a class="text-link" href="{{ "/posts/" | relURL }}">查看全部</a>
+        </div>
+
+        <div class="post-feed refined-feed">
+          {{ range first 8 $posts }}
+            <article class="post-card refined-card">
+              <div class="post-card-main">
+                <p class="post-date">{{ .Date.Format "2006-01-02" }}</p>
+                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                <p class="post-summary">{{ .Summary }}</p>
+                <div class="mini-tags">
+                  {{ range first 3 .Params.tags }}
+                    <a class="tag-chip" href="{{ (printf "/tags/%s/" .) | relURL }}">#{{ . }}</a>
+                  {{ end }}
+                </div>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+          {{ else }}
+            <article class="empty-state">还没有文章，先写一篇试试吧。</article>
           {{ end }}
         </div>
-        <span class="post-arrow">↗</span>
-      </article>
-    {{ else }}
-      <article class="empty-state">还没有文章，先写一篇试试吧。</article>
-    {{ end }}
+      </section>
+    </div>
+
+    <aside class="side-column">
+      <section class="side-card">
+        <p class="eyebrow">Categories</p>
+        <h3>分类</h3>
+        <ul class="simple-list">
+          {{ range .Site.Taxonomies.categories.ByCount }}
+            <li><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a><span>{{ .Count }}</span></li>
+          {{ else }}
+            <li><span>暂无分类</span><span>0</span></li>
+          {{ end }}
+        </ul>
+      </section>
+
+      <section class="side-card">
+        <p class="eyebrow">Tags</p>
+        <h3>标签云</h3>
+        <div class="tag-cloud">
+          {{ range .Site.Taxonomies.tags.ByCount }}
+            <a class="tag-chip" href="{{ .Page.RelPermalink }}">#{{ .Page.Title }} <span>{{ .Count }}</span></a>
+          {{ else }}
+            <span class="tag-chip">暂无标签</span>
+          {{ end }}
+        </div>
+      </section>
+
+      <section class="side-card">
+        <p class="eyebrow">Quick links</p>
+        <h3>快速入口</h3>
+        <div class="quick-links">
+          <a href="{{ "/archive/" | relURL }}">归档</a>
+          <a href="{{ "/search/" | relURL }}">搜索</a>
+          <a href="{{ "/about/" | relURL }}">关于</a>
+          <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </section>
+    </aside>
   </section>
 {{ end }}

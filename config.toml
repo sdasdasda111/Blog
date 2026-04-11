@@ -4,14 +4,18 @@ title = "video子系统"
 hasCJKLanguage = true
 
 [params]
-  description = "N/A"
+  description = "聚焦视频子系统的设计、开发与演进"
   author = "dongzhichao"
+  intro = "记录 V4L2、视频采集链路、驱动框架、编解码与系统工程实践。"
+  email = "dongzhichao@example.com"
+  github = "https://github.com/sdasdasda111/Blog"
 
 [permalinks]
   posts = "/posts/:slug/"
 
 [taxonomies]
   tag = "tags"
+  category = "categories"
 
 [menu]
   [[menu.main]]
@@ -19,14 +23,22 @@ hasCJKLanguage = true
     url = "/"
     weight = 1
   [[menu.main]]
-    name = "文章"
-    url = "/posts/"
+    name = "搜索"
+    url = "/search/"
     weight = 2
+  [[menu.main]]
+    name = "归档"
+    url = "/archive/"
+    weight = 3
   [[menu.main]]
     name = "标签"
     url = "/tags/"
-    weight = 3
+    weight = 4
+  [[menu.main]]
+    name = "分类"
+    url = "/categories/"
+    weight = 5
   [[menu.main]]
     name = "关于"
     url = "/about/"
-    weight = 4
+    weight = 6

@@ -1,21 +1,57 @@
 {{ define "main" }}
-  <article class="post-article">
-    <header class="post-hero">
-      <p class="eyebrow">Post</p>
-      <h1>{{ .Title }}</h1>
-      <div class="meta-row">
-        <time>{{ .Date.Format "2006-01-02 15:04" }}</time>
-        {{ with .Params.tags }}
-          <div class="tag-row">
-            {{ range . }}
-              <a class="tag-chip" href="{{ (printf "/tags/%s/" .) | relURL }}">#{{ . }}</a>
-            {{ end }}
-          </div>
-        {{ end }}
+  {{ $isPost := eq .Type "posts" }}
+  {{ $tags := .Params.tags }}
+  {{ $categories := .Params.categories }}
+  <article>
+    <section class="post-cover{{ if not $isPost }} post-cover-page{{ end }}">
+      <div class="container post-cover-inner">
+        <p class="eyebrow">{{ if $isPost }}Technology blog{{ else }}Page{{ end }}</p>
+        <h1>{{ .Title }}</h1>
+        <div class="cover-meta-grid">
+          <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
+          <span>作者 {{ .Site.Params.author }}</span>
+          {{ if $isPost }}
+            <span>标签 {{ with $tags }}{{ delimit . " / " }}{{ else }}无{{ end }}</span>
+            <span>分类 {{ with $categories }}{{ delimit . " / " }}{{ else }}未分类{{ end }}</span>
+          {{ else }}
+            <span>页面类型 {{ .Type }}</span>
+          {{ end }}
+        </div>
       </div>
-    </header>
-    <section class="post-content prose">
-      {{ .Content }}
+    </section>
+
+    <section class="container article-layout">
+      <div class="post-article article-card">
+        <section class="post-content prose">
+          {{ .Content }}
+        </section>
+      </div>
+
+      <aside class="article-sidebar">
+        <section class="side-card sticky-card">
+          <p class="eyebrow">{{ if $isPost }}Article info{{ else }}Page info{{ end }}</p>
+          <h3>{{ if $isPost }}文章信息{{ else }}页面信息{{ end }}</h3>
+          <ul class="info-list">
+            <li><span>标题</span><strong>{{ .Title }}</strong></li>
+            <li><span>发布时间</span><strong>{{ .Date.Format "2006-01-02" }}</strong></li>
+            {{ if $isPost }}
+              <li><span>标签数</span><strong>{{ with $tags }}{{ len . }}{{ else }}0{{ end }}</strong></li>
+              <li><span>分类数</span><strong>{{ with $categories }}{{ len . }}{{ else }}0{{ end }}</strong></li>
+            {{ else }}
+              <li><span>类型</span><strong>{{ .Type }}</strong></li>
+            {{ end }}
+          </ul>
+        </section>
+        <section class="side-card">
+          <p class="eyebrow">More</p>
+          <h3>继续浏览</h3>
+          <div class="quick-links vertical-links">
+            <a href="{{ "/posts/" | relURL }}">更多文章</a>
+            <a href="{{ "/archive/" | relURL }}">查看归档</a>
+            <a href="{{ "/tags/" | relURL }}">浏览标签</a>
+          </div>
+        </section>
+      </aside>
     </section>
   </article>
 {{ end }}
