@@ -1,12 +1,12 @@
-title: Dongzhichao Blog
-subtitle: 记录嵌入式系统、Linux 驱动与工程实践
+title: Odette
+subtitle: Never put off till tomorrow what you can do today
 description: 记录 Linux、采集链路、驱动开发、调试分析与系统工程实践。
 keywords:
   - linux
   - driver
   - embedded
   - engineering
-author: dongzhichao
+author: Lorcan dong
 language: zh-CN
 timezone: Asia/Shanghai
 url: https://sdasdasda111.github.io/Blog

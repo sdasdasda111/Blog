@@ -11,8 +11,12 @@ avatar:
   img: /img/avatar.svg
   effect: false
 
+nav:
+  fixed: false
+  display_title: true
+
 disable_top_img: false
-index_img: false
+index_img: https://butterfly.js.org/img/index.webp
 default_top_img: false
 archive_img: false
 tag_img: false
@@ -21,23 +25,25 @@ footer_bg: false
 
 subtitle:
   enable: true
-  effect: true
+  effect: false
   sub:
-    - 记录嵌入式系统、Linux 驱动与工程实践
-    - 持续整理开发笔记、问题定位与方法论
+    - Never put off till tomorrow what you can do today
 
 social:
   fab fa-github: https://github.com/sdasdasda111/Blog || Github || '#24292e'
-  fas fa-envelope: mailto:dongzhichao@example.com || Email || '#4a5a2a'
 
-index_site_info_top: 120px
-index_top_img_height: 520px
+index_site_info_top: 46%
+index_top_img_height: 100vh
+index_layout: 4
+index_post_content:
+  method: 2
+  length: 180
 
 post_meta:
   page:
     date_type: created
-    categories: true
-    tags: true
+    categories: false
+    tags: false
   post:
     date_type: both
     categories: true
@@ -46,30 +52,30 @@ post_meta:
 aside:
   enable: true
   hide: false
-  button: true
-  mobile: true
+  button: false
+  mobile: false
   position: right
   display:
-    archive: true
-    tag: true
-    category: true
+    archive: false
+    tag: false
+    category: false
 
 card_author:
   enable: true
-  description: 分享 Linux、嵌入式开发、调试分析与系统工程实践。
+  description: Linux / Embedded / Debugging
   button:
-    enable: true
+    enable: false
     icon: fab fa-github
     text: Follow Me
     link: https://github.com/sdasdasda111/Blog
 
 card_announcement:
-  enable: true
-  content: 欢迎来到我的个人博客。
+  enable: false
+  content: ''
 
 card_webinfo:
-  enable: true
-  post_count: true
+  enable: false
+  post_count: false
   last_push_date: false
   sort: 1
 
@@ -90,7 +96,7 @@ toc:
   page: false
   number: true
   expand: false
-  style_simple: false
+  style_simple: true
 
 comments:
   use: false

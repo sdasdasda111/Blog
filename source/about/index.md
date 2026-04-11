@@ -6,7 +6,7 @@ type: about
 
 ## 关于我
 
-你好，我是 `dongzhichao`。
+你好，我是 `Lorcan dong`。
 
 这个博客主要记录我在 Linux、嵌入式开发、驱动调试和系统工程里的学习与实践。
 
